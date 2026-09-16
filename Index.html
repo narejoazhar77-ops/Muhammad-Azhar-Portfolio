@@ -1,1 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cleaning Company</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0C10;
+    --surface:#12151C;
+    --surface-2:#181C24;
+    --line: rgba(231,233,238,0.10);
+    --line-strong: rgba(231,233,238,0.20);
+    --text:#E9EBF1;
+    --text-dim: rgba(233,235,241,0.62);
+    --text-faint: rgba(233,235,241,0.4);
+    --accent:#6E7BFF;
+    --accent-soft: rgba(110,123,255,0.14);
+    --accent-2:#33E0C2;
+    --accent-2-soft: rgba(51,224,194,0.14);
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark){ :root{ color-scheme: dark; } }
+  :root[data-theme="dark"]{ color-scheme: dark; }
 
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(110,123,255,0.16), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(51,224,194,0.08), transparent 60%);
+    background-repeat:no-repeat;
+  }
+  h1,h2,h3,.display{
+    font-family:'Space Grotesk', 'Inter', sans-serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    line-height:1.02;
+    margin:0;
+    color:var(--text);
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:2px solid var(--accent-2);
+    outline-offset:3px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  .glass{
+    background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+    border:1px solid var(--line);
+    backdrop-filter: blur(6px);
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,12,16,0.78);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
+  .wordmark{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:20px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .wordmark svg{width:26px;height:26px;flex:none;}
+  .navlinks{display:flex; gap:30px; align-items:center;}
+  .navlinks a{
+    text-decoration:none; font-size:14.5px; color:var(--text-dim);
+    padding:6px 0; border-bottom:1px solid transparent;
+  }
+  .navlinks a:hover{color:var(--text); border-color:var(--accent-2);}
+  .navcta{
+    background:var(--accent);
+    color:#07070C;
+    padding:10px 20px;
+    border-radius:3px;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    white-space:nowrap;
+    box-shadow:0 0 0 1px rgba(110,123,255,0.4), 0 8px 24px -8px rgba(110,123,255,0.6);
+  }
+  .navcta:hover{background:#5C6BFF;}
+  @media (max-width: 860px){ .navlinks{display:none;} }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding:88px 0 70px; border-bottom:1px solid var(--line); position:relative; }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; color:var(--accent-2);
+    font-weight:500; letter-spacing:0.02em;
+    margin-bottom:22px;
+    padding:6px 12px 6px 10px;
+    border:1px solid var(--line-strong);
+    border-radius:20px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-2); box-shadow:0 0 8px var(--accent-2);}
+  .hero h1{ font-size:clamp(44px, 6.2vw, 80px); }
+  .hero h1 .grad{
+    background:linear-gradient(100deg, var(--text) 30%, var(--accent) 65%, var(--accent-2) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.lede{ font-size:18px; max-width:48ch; margin:26px 0 34px; color:var(--text-dim); }
+  .cta-row{display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .btn{ display:inline-block; padding:14px 26px; border-radius:3px; font-size:15px; font-weight:600; text-decoration:none; border:1px solid transparent; }
+  .btn-primary{ background:var(--accent); color:#07070C; box-shadow:0 0 0 1px rgba(110,123,255,0.4), 0 10px 30px -10px rgba(110,123,255,0.65); }
+  .btn-primary:hover{background:#5C6BFF;}
+  .btn-ghost{ border-color:var(--line-strong); color:var(--text); }
+  .btn-ghost:hover{border-color:var(--accent-2); color:var(--accent-2);}
+
+  .stats{ display:flex; gap:0; margin-top:52px; border-top:1px solid var(--line); padding-top:0; flex-wrap:wrap; }
+  .stat{ flex:1; min-width:140px; padding:22px 22px 0 0; border-right:1px solid var(--line); }
+  .stat:last-child{border-right:none;}
+  .stat b{ display:block; font-family:'Space Grotesk', sans-serif; font-size:30px; font-weight:600; color:var(--accent-2); }
+  .stat span{ font-size:12.5px; color:var(--text-faint); }
+
+  .hero-art{
+    aspect-ratio:1/1;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(110,123,255,0.10), transparent 60%),
+      var(--surface);
+    border:1px solid var(--line);
+  }
+  .hero-art::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:32px 32px;
+    mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 75%);
+    opacity:0.6;
+  }
+  .scan-ring{
+    stroke:var(--accent); stroke-opacity:0.55; fill:none;
+  }
+  .scan-line{
+    transform-origin: 150px 150px;
+    animation: spin 7s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg);} }
+  @media (prefers-reduced-motion: reduce){ .scan-line{animation:none;} }
+
+  @media (max-width: 860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-art{order:-1; aspect-ratio:16/10;}
+  }
+
+  /* ---------- Section shell ---------- */
+  section{padding:84px 0;}
+  .section-head{ display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:end; margin-bottom:52px; }
+  .section-head h2{font-size:clamp(30px,3.6vw,44px);}
+  .section-head p{max-width:44ch; color:var(--text-dim); font-size:16px;}
+  @media (max-width:720px){ .section-head{grid-template-columns:1fr;} }
+
+  .kicker{
+    font-size:12.5px; color:var(--accent-2); font-weight:500; letter-spacing:0.03em;
+    margin-bottom:12px; display:block;
+  }
+
+  /* ---------- Services (module grid) ---------- */
+  .services{border-bottom:1px solid var(--line);}
+  .service-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .service-card{
+    background:var(--surface);
+    padding:32px 28px;
+    position:relative;
+    transition:background 0.25s ease;
+  }
+  .service-card:hover{ background:var(--surface-2); }
+  .service-index{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12.5px;
+    color:var(--text-faint);
+    margin-bottom:20px;
+    display:block;
+  }
+  .service-icon{
+    width:38px;height:38px;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line-strong);
+    border-radius:8px;
+    margin-bottom:18px;
+  }
+  .service-icon svg{width:18px;height:18px;stroke:var(--accent-2);}
+  .service-name{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:19px; margin-bottom:10px; }
+  .service-desc{ font-size:14.5px; color:var(--text-dim); margin-bottom:18px; }
+  .service-price{ font-size:13px; font-weight:600; color:var(--accent-2); }
+  @media (max-width:900px){ .service-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:620px){ .service-grid{grid-template-columns:1fr;} }
+
+  /* ---------- Approach ---------- */
+  .approach .wrap{ display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; }
+  .approach-list{ display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin-top:28px; }
+  .approach-item{
+    display:grid; grid-template-columns:44px 1fr; gap:16px;
+    padding:22px 24px;
+    background:var(--surface);
+  }
+  .approach-item .aicon{
+    width:40px;height:40px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--accent-soft);
+    border:1px solid var(--line-strong);
+  }
+  .approach-item svg{width:19px;height:19px; stroke:var(--accent);}
+  .approach-item h3{ font-family:'Inter', sans-serif; font-weight:600; font-size:15.5px; margin-bottom:4px; }
+  .approach-item p{font-size:14px; margin:0; color:var(--text-dim);}
+  @media (max-width:800px){ .approach .wrap{grid-template-columns:1fr;} }
+
+  /* ---------- Process ---------- */
+  .process-line{ position:relative; }
+  .process-steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; position:relative; }
+  .process-steps::before{
+    content:"";
+    position:absolute; top:23px; left:8%; right:8%;
+    height:1px;
+    background:linear-gradient(90deg, var(--accent), var(--accent-2));
+    opacity:0.35;
+  }
+  @media (max-width:760px){ .process-steps::before{display:none;} }
+  .step{ position:relative; }
+  .step-num{
+    width:46px;height:46px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:17px; font-weight:600;
+    border-radius:50%;
+    background:var(--bg);
+    border:1px solid var(--accent);
+    color:var(--accent-2);
+    margin-bottom:20px;
+    position:relative; z-index:1;
+  }
+  .step h3{ font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:18px; margin-bottom:8px; }
+  .step p{font-size:14.5px; color:var(--text-dim); margin:0;}
+  @media (max-width:760px){ .process-steps{grid-template-columns:1fr;} }
+
+  /* ---------- Testimonials ---------- */
+  .testimonials{ border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .quote-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .quote{ background:var(--surface); padding:30px 26px; }
+  .quote-mark{ color:var(--accent); font-family:'Space Grotesk', sans-serif; font-size:28px; display:block; margin-bottom:6px; }
+  .quote p{font-size:15.5px; margin:0 0 18px; color:var(--text);}
+  .quote-who{font-size:13px; color:var(--text-faint);}
+  @media (max-width:860px){ .quote-grid{grid-template-columns:1fr;} }
+
+  /* ---------- Area ---------- */
+  .area .wrap{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
+  .area h2{font-size:clamp(28px,3.6vw,40px);}
+  .area p{color:var(--text-dim); max-width:42ch; margin-top:16px;}
+  .area-list{ columns:2; gap:20px; list-style:none; padding:0; margin:0; font-size:14.5px; }
+  .area-list li{ padding:10px 0; border-bottom:1px solid var(--line); break-inside:avoid; color:var(--text-dim); }
+  .area-list li::before{ content:"— "; color:var(--accent-2); }
+  @media (max-width:760px){ .area .wrap{grid-template-columns:1fr;} .area-list{columns:1;} }
+
+  /* ---------- Contact ---------- */
+  .contact .wrap{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:56px; }
+  .contact-info{margin-top:24px; font-size:14.5px; color:var(--text-dim);}
+  .contact-info p{margin:0 0 10px;}
+  .contact-info a{ color:var(--accent-2); text-decoration:none; }
+  .contact-info a:hover{text-decoration:underline;}
+  form{display:grid; gap:16px; background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:28px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  label{ display:block; font-size:12.5px; color:var(--text-faint); margin-bottom:6px; }
+  input, select, textarea{
+    width:100%; background:var(--bg);
+    border:1px solid var(--line-strong); color:var(--text);
+    padding:12px 12px; border-radius:5px;
+    font-family:'Inter', sans-serif; font-size:14.5px;
+  }
+  input::placeholder, textarea::placeholder{color:var(--text-faint);}
+  textarea{resize:vertical; min-height:90px;}
+  .form-submit{ justify-self:start; margin-top:2px; }
+  .form-note{font-size:12px; color:var(--text-faint); margin-top:-4px;}
+  @media (max-width:800px){ .contact .wrap{grid-template-columns:1fr;} .form-row{grid-template-columns:1fr;} }
+
+  [role="status"].confirm{ font-size:13.5px; color:var(--accent-2); display:none; }
+
+  /* ---------- Footer ---------- */
+  footer{ padding:36px 0; border-top:1px solid var(--line); }
+  .foot-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-size:13px; color:var(--text-faint); }
+  .foot-links{display:flex; gap:20px;}
+  .foot-links a{text-decoration:none;}
+  .foot-links a:hover{color:var(--accent-2);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="wordmark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2 L21 7 L21 17 L12 22 L3 17 L3 7 Z" stroke="url(#g1)" stroke-width="1.4"/>
+        <path d="M8 12l2.5 2.5L16 9" stroke="var(--accent-2)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="24" y2="24"><stop offset="0" stop-color="#6E7BFF"/><stop offset="1" stop-color="#33E0C2"/></linearGradient></defs>
+      </svg>
+      Cleaning Company
+    </div>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#area">Coverage</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="navcta" href="#contact">Get a quote</a>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>Precision cleaning, verified every visit</div>
+        <h1>Immaculate,<br><span class="grad">by design.</span></h1>
+        <p class="lede">Cleaning Company pairs a trained, dedicated crew with a sensor-checked quality pass on every visit — so "clean" isn't a guess, it's confirmed before we leave.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">Get a free quote</a>
+          <a class="btn btn-ghost" href="#services">Explore services</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>11 yrs</b><span>in business locally</span></div>
+          <div class="stat"><b>4,200+</b><span>spaces completed</span></div>
+          <div class="stat"><b>98%</b><span>client renewal rate</span></div>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 300 300" width="72%" xmlns="http://www.w3.org/2000/svg">
+          <circle class="scan-ring" cx="150" cy="150" r="120" stroke-width="1"/>
+          <circle class="scan-ring" cx="150" cy="150" r="90" stroke-width="1"/>
+          <circle class="scan-ring" cx="150" cy="150" r="60" stroke-width="1"/>
+          <g class="scan-line">
+            <line x1="150" y1="150" x2="150" y2="30" stroke="var(--accent-2)" stroke-width="1.5"/>
+            <circle cx="150" cy="30" r="3.5" fill="var(--accent-2)"/>
+          </g>
+          <circle cx="150" cy="150" r="4" fill="var(--accent)"/>
+          <path d="M150 100c-14 0-22 12-22 24 0 16 22 40 22 40s22-24 22-40c0-12-8-24-22-24z" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+          <path d="M138 148l8 8 16-16" stroke="var(--accent-2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="services" id="services">
+    <div class="wrap">
+      <span class="kicker">Capabilities</span>
+      <div class="section-head">
+        <h2>What we clean</h2>
+        <p>Book a single visit or set a running schedule. Every job closes with a checklist walkthrough you sign off on before the crew leaves.</p>
+      </div>
+
+      <div class="service-grid">
+        <div class="service-card">
+          <span class="service-index">01</span>
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20h16M6 20V9l6-5 6 5v11" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="service-name">Home cleaning</div>
+          <div class="service-desc">Kitchens, bathrooms, living areas, and bedrooms — a full pass on a schedule you set.</div>
+          <div class="service-price">From $110 / visit</div>
+        </div>
+        <div class="service-card">
+          <span class="service-index">02</span>
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h18" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+          <div class="service-name">Deep reset</div>
+          <div class="service-desc">Baseboards, inside appliances, grout, and fixtures — the twice-a-year full reset.</div>
+          <div class="service-price">From $240 / visit</div>
+        </div>
+        <div class="service-card">
+          <span class="service-index">03</span>
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="service-name">Move-in / move-out</div>
+          <div class="service-desc">Empty-room cleaning for landlords, tenants, and buyers, timed to your lease or closing.</div>
+          <div class="service-price">From $195 / visit</div>
+        </div>
+        <div class="service-card">
+          <span class="service-index">04</span>
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke-width="1.7"/><path d="M4 10h16" stroke-width="1.7"/></svg></div>
+          <div class="service-name">Commercial suites</div>
+          <div class="service-desc">After-hours or early-morning service for offices and studios, under a signed access agreement.</div>
+          <div class="service-price">Custom quote</div>
+        </div>
+        <div class="service-card">
+          <span class="service-index">05</span>
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+          <div class="service-name">Managed recurring care</div>
+          <div class="service-desc">Weekly, biweekly, or monthly upkeep with the same assigned crew every time.</div>
+          <div class="service-price">From $95 / visit</div>
+        </div>
+        <div class="service-card">
+          <span class="service-index">06</span>
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke-width="1.7"/><path d="M12 8v4l3 2" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+          <div class="service-name">Same-day turnaround</div>
+          <div class="service-desc">Priority booking slots for short-notice cleans ahead of guests, showings, or inspections.</div>
+          <div class="service-price">From $150 / visit</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach" id="why">
+    <div class="wrap">
+      <div>
+        <span class="kicker">Why clients stay</span>
+        <h2>Run like a service you never have to supervise.</h2>
+      </div>
+      <div class="approach-list">
+        <div class="approach-item">
+          <div class="aicon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.9 6.3L21 9.3l-4.5 4.4 1 6.3L12 17l-5.5 3 1-6.3L3 9.3l6.1-1L12 2z" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <div>
+            <h3>Same crew, every time</h3>
+            <p>One assigned team learns your space instead of a rotating roster of strangers.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="aicon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21c4.4-3 7-6.7 7-10.5A7 7 0 0 0 5 10.5C5 14.3 7.6 18 12 21z" stroke-width="1.5"/></svg></div>
+          <div>
+            <h3>Bonded &amp; insured</h3>
+            <p>Every cleaner is background-checked, and every visit is covered against damage or loss.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="aicon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div>
+            <h3>Checklist sign-off</h3>
+            <p>We walk the space together before leaving and fix anything off the list, free.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="aicon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke-width="1.5"/><path d="M12 7v5l3.5 2" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div>
+            <h3>Flexible scheduling</h3>
+            <p>Reschedule, skip, or change frequency online with 24 hours' notice — no phone tag.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <span class="kicker">Booking flow</span>
+      <div class="section-head">
+        <h2>How it works</h2>
+        <p>From first message to an inspected, finished clean — most first visits are booked within three days.</p>
+      </div>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Tell us the space</h3>
+          <p>Share square footage, rooms, and priorities. We reply with a fixed quote, not a range.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>We clean, you carry on</h3>
+          <p>Your crew arrives in the chosen window, works the checklist, and locks up or hands off keys when done.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Walkthrough &amp; sign-off</h3>
+          <p>We review the space together, or send photos if you're out. Anything missed gets fixed on the spot.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials" id="reviews">
+    <div class="wrap">
+      <span class="kicker">Client record</span>
+      <div class="section-head">
+        <h2>What clients say</h2>
+        <p></p>
+      </div>
+      <div class="quote-grid">
+        <div class="quote">
+          <span class="quote-mark">”</span>
+          <p>They've cleaned our house every other week for three years. I've never had to leave a note about what was missed.</p>
+          <div class="quote-who">Priya M. — biweekly home cleaning</div>
+        </div>
+        <div class="quote">
+          <span class="quote-mark">”</span>
+          <p>Booked a move-out clean on four days' notice before a lease ended. Got the full deposit back.</p>
+          <div class="quote-who">Daniyal R. — move-out cleaning</div>
+        </div>
+        <div class="quote">
+          <span class="quote-mark">”</span>
+          <p>Our studio needs early-morning access before clients arrive. They've never once been late.</p>
+          <div class="quote-who">Sana K. — office cleaning</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="area" id="area">
+    <div class="wrap">
+      <div>
+        <span class="kicker">Coverage</span>
+        <h2>Where we work</h2>
+        <p>Based in Islamabad, serving the capital and neighbouring sectors. Outside these areas? Ask — we sometimes travel for recurring contracts.</p>
+      </div>
+      <ul class="area-list">
+        <li>F-6, F-7, F-8, F-10</li>
+        <li>E-7, E-11</li>
+        <li>G-9, G-10, G-11</li>
+        <li>I-8, I-9, I-10</li>
+        <li>Bahria Town</li>
+        <li>DHA Islamabad</li>
+        <li>Blue Area</li>
+        <li>Rawalpindi Cantt</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div>
+        <span class="kicker">Get started</span>
+        <h2>Request a quote</h2>
+        <p style="color:var(--text-dim); margin-top:16px; max-width:38ch;">Tell us about the space and we'll reply with a fixed price, usually within one business day.</p>
+        <div class="contact-info">
+          <p>Call or WhatsApp: <a href="tel:+920000000000">+92 000 0000000</a></p>
+          <p>Email: <a href="mailto:hello@cleaningcompany.example">hello@cleaningcompany.example</a></p>
+          <p>Hours: Mon–Sat, 8:00 AM – 7:00 PM</p>
+        </div>
+      </div>
+      <form id="quoteForm">
+        <div class="form-row">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" placeholder="03xx xxxxxxx" required>
+          </div>
+        </div>
+        <div>
+          <label for="address">Address / area</label>
+          <input id="address" name="address" type="text" placeholder="Sector, street, city" required>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="service">Service</label>
+            <select id="service" name="service">
+              <option>Home cleaning</option>
+              <option>Deep reset</option>
+              <option>Move-in / move-out</option>
+              <option>Commercial suites</option>
+              <option>Managed recurring care</option>
+            </select>
+          </div>
+          <div>
+            <label for="date">Preferred date</label>
+            <input id="date" name="date" type="date">
+          </div>
+        </div>
+        <div>
+          <label for="notes">Anything we should know</label>
+          <textarea id="notes" name="notes" placeholder="Rooms, pets, parking, access instructions..."></textarea>
+        </div>
+        <div>
+          <button class="btn btn-primary form-submit" type="submit">Request quote</button>
+          <p class="form-note">This is a sample site — the form doesn't send anywhere yet.</p>
+        </div>
+        <p role="status" class="confirm" id="confirmMsg">Thanks — this sample form doesn't actually submit, but on a live site you'd hear back within a day.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>© <span id="year"></span> Cleaning Company. All rights reserved.</div>
+    <div class="foot-links">
+      <a href="#services">Services</a>
+      <a href="#area">Coverage</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  var form = document.getElementById('quoteForm');
+  var confirmMsg = document.getElementById('confirmMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    confirmMsg.style.display = 'block';
+  });
+</script>
+
+</body>
+</html>
